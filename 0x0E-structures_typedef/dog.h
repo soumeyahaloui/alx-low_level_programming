@@ -2,7 +2,6 @@
 #define DOG_H
 
 /**
-
 dogStruct - Contains basic information about a dog
 @name: Name of the dog
 @age: Age of the dog
