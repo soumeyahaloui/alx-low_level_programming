@@ -1,11 +1,9 @@
-global main
-extern printf
-
+global    main
+          extern    printf
 main:
-push rbp
-mov rdi, msg
-xor rax, rax
-call printf
-pop rbp
-ret
+	  mov   edi, format
+	  xor   eax, eax
+	  call  printf
+	  mov 	eax, 0
+	  ret
 format: db `Hello, Holberton\n`,0
