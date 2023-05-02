@@ -1,46 +1,76 @@
 #include "lists.h"
 #include <stdio.h>
-#include <stdlib.h>
 
 /**
- * print_listint_safe - prints a listint_t linked list.
- * @head: a pointer to the head of the list.
+ * looped_listint_len - Counts the number of unique nodes
+ * in a looped listint_t linked list.
+ * @head: A pointer to the head of the listint_t to check.
  *
- * Return: the number of nodes in the list.
+ * Return: If the list is not looped - 0.
+ * Otherwise - the number of unique nodes in the list.
+ */
+size_t looped_listint_len(const listint_t *head)
+{
+	const listint_t *tortoise, *hare;
+	size_t nodes = 1;
+
+	if (head == NULL || head->next == NULL)
+		return (0);
+
+	tortoise = head->next;
+	hare = (head->next)->next;
+
+	while (hare)
+	{
+		if (tortoise == hare)
+		{
+			tortoise = head;
+			while (tortoise != hare)
+			{
+				nodes++;
+				tortoise = tortoise->next;
+				hare = hare->next;
+			}
+
+			tortoise = tortoise->next;
+			while (tortoise != hare)
+			{
+				nodes++;
+				tortoise = tortoise->next;
+			}
+
+			return (nodes);
+		}
+
+		tortoise = tortoise->next;
+		hare = (hare->next)->next;
+	}
+
+	return (0);
+}
+
+/**
+ * print_listint_safe - Prints a listint_t list safely.
+ * @head: A pointer to the head of the listint_t list.
+ *
+ * Return: The number of nodes in the list.
  */
 size_t print_listint_safe(const listint_t *head)
 {
-	size_t nodes = 0, i;
-	const listint_t *temp, *prev;
+	size_t nodes = 0;
 
-	if (head == NULL)
-	{
-		printf("Error: NULL pointer passed\n");
-		exit(98);
-	}
-
-	temp = head;
-	while (temp != NULL)
-	{
-		nodes++;
-		printf("[%p] %d\n", (void *)temp, temp->n);
-
-		prev = temp;
-		temp = temp->next;
-
-		if (prev <= temp)
-			continue;
-
-		printf("-> [%p] %d\n", (void *)temp, temp->n);
-		break;
-	}
-
-	if (temp != NULL)
-		nodes++;
-
-	for (i = 0; i < nodes; i++)
+	while (head)
 	{
 		printf("[%p] %d\n", (void *)head, head->n);
+		nodes++;
+
+		if ((void *)head <= (void *)head->next)
+		{
+			printf("-> [%p] %d\n", (void *)head->next, head->next->n);
+			nodes++;
+			break;
+		}
+
 		head = head->next;
 	}
 
