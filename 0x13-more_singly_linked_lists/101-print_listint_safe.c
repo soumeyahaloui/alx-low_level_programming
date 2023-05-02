@@ -1,52 +1,48 @@
 #include "lists.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 /**
- * print_listint_safe - prints a listint_t linked list
- * @head: pointer to head of list
+ * print_listint_safe - prints a listint_t linked list.
+ * @head: a pointer to the head of the list.
  *
- * Return: number of nodes in the list
+ * Return: the number of nodes in the list.
  */
 size_t print_listint_safe(const listint_t *head)
 {
-	const listint_t *curr;
-	size_t count = 0;
-	const listint_t *slow, *fast;
+	size_t nodes = 0, i;
+	const listint_t *temp, *prev;
 
 	if (head == NULL)
+	{
+		printf("Error: NULL pointer passed\n");
 		exit(98);
-
-	slow = head;
-	fast = head->next;
-
-	while (slow != NULL && fast != NULL && fast->next != NULL)
-	{
-		if (slow == fast)
-		{
-			printf("-> [%p] %d\n", (void *)slow, slow->n);
-			break;
-		}
-
-		printf("[%p] %d\n", (void *)slow, slow->n);
-		count++;
-		slow = slow->next;
-		fast = fast->next->next;
 	}
 
-	if (slow == NULL || fast == NULL || fast->next == NULL)
+	temp = head;
+	while (temp != NULL)
 	{
-		printf("[%p] %d\n", (void *)slow, slow->n);
-		count++;
-	}
-	curr = head;
+		nodes++;
+		printf("[%p] %d\n", (void *)temp, temp->n);
 
-	while (curr != slow)
-	{
-		printf("[%p] %d\n", (void *)curr, curr->n);
-		count++;
-		curr = curr->next;
+		prev = temp;
+		temp = temp->next;
+
+		if (prev <= temp)
+			continue;
+
+		printf("-> [%p] %d\n", (void *)temp, temp->n);
+		break;
 	}
-	printf("-> [%p] %d\n", (void *)curr, curr->n);
-	count++;
-	return (count);
+
+	if (temp != NULL)
+		nodes++;
+
+	for (i = 0; i < nodes; i++)
+	{
+		printf("[%p] %d\n", (void *)head, head->n);
+		head = head->next;
+	}
+
+	return (nodes);
 }
