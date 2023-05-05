@@ -10,7 +10,7 @@ int get_endianness(void)
 	unsigned int i = 1;
 	char *c = (char *)&i;
 
-	/* If the least significant byte of the int is 1, the machine is little endian */
+	/* If the least significant byte of int is 1, the machine is little endian */
 	if (*c)
 		return (1);
 	else
