@@ -1,0 +1,25 @@
+# Makefile for school
+
+# Compiler and flags
+CC = gcc
+CFLAGS =
+
+# Source files
+SRCS = main.c school.c
+
+# Output executable name
+TARGET = school
+
+# Default target (all)
+all: $(TARGET)
+
+# Build the executable
+$(TARGET): $(SRCS)
+	$(CC) $(CFLAGS) $(SRCS) -o $(TARGET)
+
+# Clean up intermediate files
+clean:
+	rm -f $(TARGET)
+
+# PHONY targets
+.PHONY: all clean
