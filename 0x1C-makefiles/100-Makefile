@@ -1,14 +1,47 @@
+# Compiler and flags
 CC = gcc
-SRC = main.c holberton.c
-OBJ = $(SRC:.c=.o)
-NAME = holberton
 CFLAGS = -Wall -Werror -Wextra -pedantic
-.PHONY: all clean oclean fclean re
-all: m.h $(OBJ)
-	$(CC) $(OBJ) -o $(NAME)
+
+# Executable name
+NAME = school
+
+# Source files
+SRC = $(wildcard *.c)
+
+# Object files
+OBJ = $(SRC:.c=.o)
+
+# Deletion program
+RM = rm -f
+
+# Main rule: build the executable
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) -o $@ $^
+
+# Clean rule: delete temporary files and executable
 clean:
 	$(RM) *~ $(NAME)
+
+# Object clean rule: delete object files
 oclean:
 	$(RM) $(OBJ)
+
+# Full clean rule: delete temporary files, executable, and object files
 fclean: clean oclean
-re: oclean all
+
+# Force recompilation rule
+re: fclean all
+
+# Dependency rule for object files
+%.o: %.c
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+# Ensure m.h exists in the directory
+ifeq ($(wildcard m.h),)
+$(error "m.h not found in the directory.")
+endif
+
+# Phony targets to ensure the rules always work
+.PHONY: all clean oclean fclean re
