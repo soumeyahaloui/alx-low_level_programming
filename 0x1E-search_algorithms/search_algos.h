@@ -20,9 +20,18 @@ typedef struct listint_s
     struct listint_s *next;
 } listint_t;
 
+/**
+ * struct skiplist_s - Skip list node structure
+ *
+ * @n: Integer stored in the node
+ * @index: Index of the node in the list
+ * @next: Pointer to the next node in the list
+ * @express: Pointer to the next node in the express lane
+ */
 typedef struct skiplist_s
 {
     int n;
+    size_t index;
     struct skiplist_s *next;
     struct skiplist_s *express;
 } skiplist_t;
